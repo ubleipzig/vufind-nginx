@@ -1,0 +1,30 @@
+stages:
+- image
+
+nginx_image:
+  stage: image
+  image: docker:latest
+  services:
+  - docker:dind
+  script: |
+    mkdir -p ~/.docker && echo "$DOCKER_AUTH_CONFIG" >~/.docker/config.json
+    export version=`expr ${CI_COMMIT_TAG} ':' '\([^-]\+\)'`
+    export major_version=`expr ${version} ':' '\([^.]\+\)'`
+    export minor_version=`expr ${version} ':' '[^.]\+\.\([^-]\+\)'`
+    export suffix=`expr ${CI_COMMIT_TAG} ':' '[^-]\+-\(.*\)'`
+    docker build --pull -t ubleipzig/vufind-nginx:${version}-${suffix} -f ${version}/Dockerfile .
+    docker push ubleipzig/vufind-nginx:${version}-${suffix}
+    for tag in "latest" "${major_version}" "${version}"; do
+      if [ "$tag" == "latest" -a "${version}" != "1.13" ]; then continue; fi
+      if [ "$tag" == "1" -a "${version}" != "1.13" ]; then continue; fi
+      docker tag  ubleipzig/vufind-nginx:${version}-${suffix} ubleipzig/vufind-nginx:${tag}
+      docker push ubleipzig/vufind-nginx:${tag}
+    done
+  tags:
+  - docker
+  only:
+  - /.*/
+  except:
+  - branches
+
+
