@@ -22,12 +22,8 @@ $# docker run --name nginx \
   ubleipzig/vufind-nginx
 ```
 
-## Anmerkungen
-
-* Das *vufind1*-Image existiert, um Entwicklern das Umschalten zu VuFind1-Instanzen so einfach wie möglich zu machen. Hier wird keine weitere Arbeit investiert, z.B. funktioniert die Pfad-Konfiguration über die `BASE_PATH`-Variable nicht.
-* es müssen Tests geschrieben werden, sobald ich weiß, wie man das für Docker-Images am besten macht
-
-[vufind-httpd]: https://hub.docker.com/r/ubleipzig/vufind-httpd/
-[nginx:alpine]: https://hub.docker.com/_/nginx/
+[VuFind]: https://github.com/vufind-org/vufind
+[httpd:alpine]: https://hub.docker.com/_/httpd/
 [1.13/Dockerfile]: https://git.sc.uni-leipzig.de/ubl/bdd_dev/docker/vufind-nginx/blob/master/1.13/Dockerfile
-
+[vufind-httpd]: https://hub.docker.com/r/ubleipzig/vufind-httpd/
+[vufind-php]: https://hub.docker.com/r/ubleipzig/vufind-php/
